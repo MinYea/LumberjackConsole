@@ -97,8 +97,8 @@ static PTEDashboard * _sharedDashboard;
 {
     [super safeAreaInsetsDidChange];
     
-    self.frame = UIEdgeInsetsInsetRect(self.frame, self.safeAreaInsets);
-    _insetScreenSize = self.frame.size;
+//    self.frame = UIEdgeInsetsInsetRect(self.frame, self.safeAreaInsets);
+//    _insetScreenSize = self.frame.size;
 }
 
 - (void)show
@@ -307,11 +307,14 @@ static PTEDashboard * _sharedDashboard;
     }
 }
 
+
 @end
 
 
 @interface PTERootController : UIViewController
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *senderBtn;
+@property(nonatomic, strong) UIAccelerometer * accelerometer;
 @end
 
 @implementation PTERootController
@@ -324,7 +327,32 @@ static PTEDashboard * _sharedDashboard;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self.tableView dataSource];
+    
+//    [UIApplication sharedApplication].applicationSupportsShakeToEdit = YES;
+//    [[UIApplication sharedApplication] setApplicationSupportsShakeToEdit:YES];
+    
+//    [self becomeFirstResponder];
+    
+    self.accelerometer = [UIAccelerometer sharedAccelerometer];
+    self.accelerometer.delegate = self;
+    self.accelerometer.updateInterval = 0.1;
 }
+
+
+- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
+{
+    double accelerameter = sqrt( pow( acceleration.x , 2 ) + pow( acceleration.y , 2 )
+                                + pow( acceleration.z , 2) );
+    if (accelerameter> 2.3) {
+        [[PTEDashboard sharedDashboard] toggleFullscreen:self.senderBtn];
+    }
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 
 @end

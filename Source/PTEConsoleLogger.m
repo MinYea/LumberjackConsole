@@ -74,7 +74,7 @@
     {
         // Default values
         _maxMessages = 1000;
-        _fontSize = 13.0;
+        _fontSize = 15.0;
         _font = [UIFont systemFontOfSize:_fontSize];
         _lastUpdate = NSDate.date;
         _minIntervalToUpdate = 0.3;
@@ -331,7 +331,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     DDLogMessage * logMessage = (_filteringEnabled ? _filteredMessages : _messages)[indexPath.row];
     if (![_expandedMessages containsObject:logMessage])
     {
-        return 20.0;
+        return 30.0;
     }
     
     // Collapsed cell
@@ -363,7 +363,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 #pragma clang diagnostic pop
     }
     
-    return size.height + 20.0;
+    return size.height + 30.0;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView
@@ -441,7 +441,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     {
         label = (UILabel *)cell.contentView.subviews[0];
     }
-    
+
     // Configure the label
     if (marker)
     {
